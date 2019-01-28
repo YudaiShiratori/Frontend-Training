@@ -11,6 +11,10 @@
       <div v-if="isShow">Can you see?</div>
       <span v-for="(item, index) in items" :key="index">{{item }}</span>
     </div>
+
+    <div v-for="(item) in infos" :key="item.id">
+      {{ item.name }}は{{ item.hobby}} が趣味
+    </div>
     
     <div @click="onClick(5)">
       <button @click.stop="onClick(3)">
@@ -26,7 +30,7 @@
     <div>
       <input type="text" v-model="name">
       <div>your name is {{ name }}</div>
-      <div>mojisuu: {{ nameCount }}</div>
+      <div>文字数: {{ nameCount }}</div>
     </div>
 
     <div>
@@ -41,21 +45,25 @@
 
     <div>{{ nowDate | year }}</div>
     
-    <form>
-        <input type="text" v-model="item">
-        <button v-submit="submitItem">add</button>
-        <button v-submit="deleteItem">del</button>
-    </form>
+    <input-form v-model="info"/>
+    <div>
+      呼び元の値
+      <p>{{ info.name }}</p>
+      <p>{{ info.sex }}</p>
+      <p>{{ info.profile }}</p>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import InputForm from
+'./components/InputForm.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    InputForm
   },
   data() {
     return {
@@ -65,9 +73,8 @@ export default {
       btnTag: 0,
       nameCount: 0,
       info: {
-        id: 0,
-        name: "asdf",
-        hobby: "kyudo"
+        id: 0, name: "asdf", hobby: "kyudo",
+        sex: "male", profile: "I like kyudo"
       },
       watchItem: "",
       nowDate: new Date()
@@ -88,16 +95,13 @@ export default {
     console.log("DOM OK")
     this.nameCount = this.name.length
   },
-  destroyed () {
-    console.log("Adios")
-  },
   watch: {
     name(newVal, oldVal) {
       this.nameCount = newVal.length
     },
-    info: {
+    'info.name': {
       handler(val) {
-        this.watchItem = '${val.id}, ${val.name}, ${val.hobby}'
+        this.watchItem = val
       },
       deep: true
     }
