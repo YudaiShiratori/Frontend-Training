@@ -5,14 +5,14 @@
       <button @click="addTask">Add</button>
       <button @click="deleteTask(index)">Delete</button>
     </form>
-    <ul>
+    <!-- <ul>
       <li v-for="(todo, index) in todos">
         <span v-toggle="checked">
           <input type="checkbox" v-model="todo.checked">
           {{ todo.task }}
         </span>
       </li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
@@ -33,12 +33,12 @@ export default {
       }
       this.todos.push(todo)
       this.newTask = ''
-    },
-    deleteTask: function(index){
-      alert(index)
-      if this.todo.checked
-        this.todos.splice(this.todo.index, 1)
     }
+    // deleteTask: function(index){
+    //   alert(index)
+    //   if this.todo.checked
+    //     this.todos.splice(this.todo.index, 1)
+    // }
   }
 }
 </script>
