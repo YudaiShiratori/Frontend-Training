@@ -28,8 +28,8 @@ export default {
   methods: {
     addTask: function(){
       var todo = {
-        task : this.newTask,
-        checked: false
+        text : this.newTask,
+        done: false
       }
       this.todos.push(todo)
       this.newTask = ''
