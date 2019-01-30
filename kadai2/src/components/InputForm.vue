@@ -6,11 +6,11 @@
       <button @click="deleteTask(index)">Delete</button>
     </form>
     <ul>
-      <li v-for="(todo, index) in todos">
-        <span v-toggle="checked">
-          <input type="checkbox" v-model="todo.checked">
-          {{ todo.task }}
-        </span>
+      <li v-for="todo in todos" :key="todo.id">
+        <label>
+          <input type="checkbox" v-model="todo.done">
+          <span>{{ todo.text }}</span>
+        </label>
       </li>
     </ul>
   </div>
