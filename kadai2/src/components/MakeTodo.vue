@@ -31,8 +31,8 @@ export default {
     }
   },
   methods: {
-    addTask: function(event){
-    	if(this.newTask == '') return
+    addTask: function(){
+      if(this.newTask == '') return
       var todo = {
         text : this.newTask,
         done: false
@@ -40,9 +40,9 @@ export default {
       this.todos.push(todo)
       this.newTask = ''
     },
-    deleteTask: function(event){
-    	this.todos = this.todos.filter(function(todo){
-      	return todo.done == false;
+    deleteTask: function(){
+      this.todos = this.todos.filter(function(todo){
+        return todo.done == false;
       })
     }
   }
@@ -55,7 +55,7 @@ export default {
   }
   
  .todolist {
-   	width:300px;
+    width:300px;
     border:1px;
     border-style:solid; 
     border-color:#999;
