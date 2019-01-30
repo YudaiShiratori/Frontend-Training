@@ -1,14 +1,14 @@
 <template>
-  <input-form />  
+  <make-todo />  
 </template>
 
 <script>
-import InputForm from './components/InputForm.vue'
+import MakeTodo from './components/MakeTodo.vue'
 
 export default {
   name: 'app',
   components: {
-    InputForm
+    MakeTodo
   },
   data() {
     return {

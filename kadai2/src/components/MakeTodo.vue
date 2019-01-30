@@ -1,24 +1,29 @@
 <template>
-  <div class="inputForm">
-    <form @submit.prevent>
-      <input type="text" v-model="newTask">
-      <button @click="addTask">Add</button>
-      <button @click="deleteTask(index)">Delete</button>
-    </form>
-    <ul>
-      <li v-for="todo in todos" :key="todo.id">
-        <label>
-          <input type="checkbox" v-model="todo.done">
-          <span>{{ todo.text }}</span>
-        </label>
-      </li>
-    </ul>
+  <div class="makeTodo">
+    <div>
+      <form @submit.prevent>
+        <input type="text" v-model="newTask">
+        <button @click="addTask">Add</button>
+        <button @click="deleteTask">Delete</button>
+      </form>
+    </div>
+    <div class="todolist">
+      <p>TODO</p>
+      <ul>
+        <li v-for="(todo, index) in todos" :key="index">
+          <label>
+            <input type="checkbox" v-model="todo.done">
+            <span>{{ todo.text }}</span>
+          </label>
+        </li>
+      </ul>
+   </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'InputForm',
+  name: 'MakeTodo',
   data() {
     return {
       newTask: '',
@@ -26,19 +31,20 @@ export default {
     }
   },
   methods: {
-    addTask: function(){
+    addTask: function(event){
+    	if(this.newTask == '') return
       var todo = {
         text : this.newTask,
         done: false
       }
       this.todos.push(todo)
       this.newTask = ''
+    },
+    deleteTask: function(event){
+    	this.todos = this.todos.filter(function(todo){
+      	return todo.done == false;
+      })
     }
-    // deleteTask: function(index){
-    //   alert(index)
-    //   if this.todo.checked
-    //     this.todos.splice(this.todo.index, 1)
-    // }
   }
 }
 </script>
@@ -46,6 +52,14 @@ export default {
 <style>
   ul li {
     list-style: none;
+  }
+  
+ .todolist {
+   	width:300px;
+    border:1px;
+    border-style:solid; 
+    border-color:#999;
+    margin: 20px 10px;
   }
 </style>
 
