@@ -10,5 +10,6 @@ function Lesson_LetConst() {
     console.log('定数', name);
 }
 exports.Lesson_LetConst = Lesson_LetConst;
+//変数と定数
 Lesson_LetConst();
 //# sourceMappingURL=Lesson_LetConst.js.map

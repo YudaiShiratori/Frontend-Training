@@ -10,5 +10,5 @@ export function Lesson_LetConst() {
   const name : String = 'tanaka'
   console.log('定数', name)
 }
-
+//変数と定数
 Lesson_LetConst()
