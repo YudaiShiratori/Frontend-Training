@@ -17,6 +17,7 @@ function Lesson_AssociativeArray() {
     console.log(itemA.name);
     const items = [itemA, itemB];
     items.push(itemC);
+    console.log(items);
     console.log(items[2]);
 }
 exports.Lesson_AssociativeArray = Lesson_AssociativeArray;
