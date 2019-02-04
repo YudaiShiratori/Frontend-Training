@@ -12,6 +12,7 @@ export function Lesson_Static() {
 
   const result = LessonStatic1.getResult()
   console.log(result)
+  
 }
 
 class LessonStatic1 {
