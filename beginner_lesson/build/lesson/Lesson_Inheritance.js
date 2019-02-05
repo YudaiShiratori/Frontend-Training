@@ -57,15 +57,4 @@ class Employee extends CompanyEmployee {
     }
 }
 Lesson_Inheritance();
-/* 継承
-  共通のメンバ・メソッドがある場合は親クラス（スーパークラス）を作成し、
-  親クラスを継承する子クラス（サブクラス）を用意することで子クラスは親クラスの持ち物を利用できる。
-  
-  修飾子によってアクセス制限できる
-    public: 誰でも利用できる
-    private: 親クラスのみ利用できる
-    protected: 親クラスと子クラスのみ利用できる。外部からアクセスはできない
-*/
-// Taro { name: 'Taro', tel: '0120000000', id: 0, profile: 'President' }
-// Hanako { name: 'Hanako', tel: '0120000000', id: 1, profile: 'Engineer' }
 //# sourceMappingURL=Lesson_Inheritance.js.map
