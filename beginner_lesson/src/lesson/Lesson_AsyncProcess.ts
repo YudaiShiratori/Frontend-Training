@@ -31,7 +31,7 @@ async function LessonAsyncAwait() {
   }
 }
 
-function LessonPromiseAPIClient(url: string)  {
+function LessonPromiseAPIClient(url: string) {
   return new Promise((resolve, reject) => {
     axios.get(url)
     .then((result: any) => {
