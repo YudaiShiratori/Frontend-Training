@@ -1,26 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// RxJSをインポートする
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
 const axios_1 = require("axios");
 const utils_1 = require("../utils/utils");
-// Qiita APIのURLを定義
-/*
-   注意：リクエストしすぎるとリクエスト制限がかかる
-*/
 const userName = 'YudaiShiratori'; // 自分のアカウントを設定
 const userListUrl = 'https://qiita.com/api/v2/users';
 const userDetailUrl = `https://qiita.com/api/v2/users/${userName}`;
-/*
-  Observable: ストリーム（データを流す通路）
-  BehaviorSubject: 最後のデータを保持する。onNextで新しいデータを流し、subscribeとvalueでデータを取得できる
-  from: 引数に指定されたデータのObservableを生成
-  zip: 複数のObservableから流れてきたデータを組み合わせて単一のデータにする
-  empty: 何のデータを持っていないObservableを生成
-  map: pip内で使えるmap。機能はリスト操作のmapと同じ
-  catchError: pip内で発生したエラーをキャッチ
-*/
 async function Lesson_ReactiveX() {
     console.log('---- Lesson_ReactiveX ----');
     const sleepTime = 1000; // 順番にコールするために待ち合わせする
@@ -40,20 +26,14 @@ async function Lesson_ReactiveX() {
     console.log('------------------\n');
 }
 exports.Lesson_ReactiveX = Lesson_ReactiveX;
-// ■ Rxで値を加工する
 function LessonRxProcess() {
-    /*
-      Observable = ストリーム（データを流せれる通路）
-      subscribeをするとデータをストリームへ流して処理できる
-    */
     const o1 = rxjs_1.from([1, 2, 3, 4, 5]);
     const o2 = rxjs_1.from(['A', 'B', 'C', 'D', 'E']);
     o1.subscribe((value) => {
-        console.log('RxProcess o1', value); // RxProcess o1 1 ... RxProcess o1 5 の順に表示される
+        console.log('RxProcess 01', value);
     });
-    // o1に流れてくる値を加工してストリームへ流す
     o1.pipe(operators_1.map((x) => x * 2)).subscribe((value) => {
-        console.log('RxProcess o1', value); // RxProcess o1 2 ... RxProcess o1 10 の順に表示される
+        console.log('RxProcess ', value);
     });
     // list1からlist2へ順番にストーリムへ流す
     const list1 = [1, 2, 3, 4, 5];
@@ -154,4 +134,13 @@ function LessonRxAPIClient(url) {
     return rxjs_1.from(axios_1.default.get(url));
 }
 Lesson_ReactiveX();
+/*
+  Observable: ストリーム（データを流す通路）
+  BehaviorSubject: 最後のデータを保持する。onNextで新しいデータを流し、subscribeとvalueでデータを取得できる
+  from: 引数に指定されたデータのObservableを生成
+  zip: 複数のObservableから流れてきたデータを組み合わせて単一のデータにする
+  empty: 何のデータを持っていないObservableを生成
+  map: pip内で使えるmap。機能はリスト操作のmapと同じ
+  catchError: pip内で発生したエラーをキャッチ
+*/ 
 //# sourceMappingURL=Lesson_ReactiveX.js.map

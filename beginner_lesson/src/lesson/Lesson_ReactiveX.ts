@@ -1,27 +1,12 @@
-// RxJSをインポートする
 import { Observable, BehaviorSubject, from, zip, empty } from 'rxjs'
 import { map, catchError } from 'rxjs/operators'
 
-import axios, { AxiosResponse } from 'axios' 
+import axios, { AxiosResponse } from 'axios'
 import { sleep } from '../utils/utils'
 
-// Qiita APIのURLを定義
-/*
-   注意：リクエストしすぎるとリクエスト制限がかかる
-*/
 const userName: string = 'YudaiShiratori' // 自分のアカウントを設定
 const userListUrl: string = 'https://qiita.com/api/v2/users'
 const userDetailUrl: string = `https://qiita.com/api/v2/users/${userName}`
-
-/*
-  Observable: ストリーム（データを流す通路）
-  BehaviorSubject: 最後のデータを保持する。onNextで新しいデータを流し、subscribeとvalueでデータを取得できる
-  from: 引数に指定されたデータのObservableを生成
-  zip: 複数のObservableから流れてきたデータを組み合わせて単一のデータにする
-  empty: 何のデータを持っていないObservableを生成
-  map: pip内で使えるmap。機能はリスト操作のmapと同じ
-  catchError: pip内で発生したエラーをキャッチ
-*/
 
 export async function Lesson_ReactiveX() {
   console.log('---- Lesson_ReactiveX ----')
@@ -47,24 +32,18 @@ export async function Lesson_ReactiveX() {
   console.log('------------------\n')
 }
 
-// ■ Rxで値を加工する
 function LessonRxProcess() {
-  /* 
-    Observable = ストリーム（データを流せれる通路）
-    subscribeをするとデータをストリームへ流して処理できる
-  */
-  const o1: Observable<number> = from([1, 2, 3, 4, 5])
-  const o2: Observable<string> = from(['A', 'B', 'C', 'D', 'E'])
+  const o1: Observable<number> = from([1, 2 ,3 ,4 ,5])
+  const o2: Observable<string> = from(['A','B','C','D','E'])
 
   o1.subscribe((value: number) => {
-    console.log('RxProcess o1', value)     // RxProcess o1 1 ... RxProcess o1 5 の順に表示される
+    console.log('RxProcess 01', value)
   })
 
-  // o1に流れてくる値を加工してストリームへ流す
   o1.pipe(
-    map((x:number) => x * 2)
+    map((x: number) => x * 2)
   ).subscribe((value: number) => {
-    console.log('RxProcess o1', value)    // RxProcess o1 2 ... RxProcess o1 10 の順に表示される
+    console.log('RxProcess ', value)
   })
 
   // list1からlist2へ順番にストーリムへ流す
@@ -190,3 +169,13 @@ function LessonRxAPIClient(url: string)  {
 
 
 Lesson_ReactiveX()
+
+/*
+  Observable: ストリーム（データを流す通路）
+  BehaviorSubject: 最後のデータを保持する。onNextで新しいデータを流し、subscribeとvalueでデータを取得できる
+  from: 引数に指定されたデータのObservableを生成
+  zip: 複数のObservableから流れてきたデータを組み合わせて単一のデータにする
+  empty: 何のデータを持っていないObservableを生成
+  map: pip内で使えるmap。機能はリスト操作のmapと同じ
+  catchError: pip内で発生したエラーをキャッチ
+*/
