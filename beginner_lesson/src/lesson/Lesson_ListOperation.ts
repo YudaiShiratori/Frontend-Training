@@ -1,4 +1,4 @@
-export function Lesson_Listoperation() {
+export function Lesson_ListOperation() {
   const nums: number[] = [0, 10, 2, 3, 4, 5]
 //filter
   const numsFiltered1: number[] = nums.filter(item => item != 0)
@@ -67,4 +67,4 @@ export function Lesson_Listoperation() {
   console.log('sort2', sort2)
 } 
 
-Lesson_Listoperation()
+Lesson_ListOperation()

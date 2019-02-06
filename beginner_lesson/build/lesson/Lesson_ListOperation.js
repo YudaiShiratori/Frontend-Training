@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function Lesson_Listoperation() {
+function Lesson_ListOperation() {
     const nums = [0, 10, 2, 3, 4, 5];
     //filter
     const numsFiltered1 = nums.filter(item => item != 0);
@@ -67,6 +67,6 @@ function Lesson_Listoperation() {
     });
     console.log('sort2', sort2);
 }
-exports.Lesson_Listoperation = Lesson_Listoperation;
-Lesson_Listoperation();
+exports.Lesson_ListOperation = Lesson_ListOperation;
+Lesson_ListOperation();
 //# sourceMappingURL=Lesson_ListOperation.js.map
