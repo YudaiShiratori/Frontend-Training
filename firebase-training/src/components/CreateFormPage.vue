@@ -123,9 +123,9 @@ export default class CreateFormPage extends Vue {
     try {
       this.items = []
       const db: firebase.firestore.Firestore = firebase.firestore()
-      const items: firebase.firestore.QueryDocumentSnapshot = await db.collection('version/1/memos').get()
+      const items: firebase.firestore.QuerySnapshot = await db.collection('version/1/memos').get()
       items.docs.forEach((item: firebase.firestore.QueryDocumentSnapshot) => {
-        this.items.push(items.data())
+        this.items.push(item.data())
       })
       console.log(this.items)
     } catch (error) {
