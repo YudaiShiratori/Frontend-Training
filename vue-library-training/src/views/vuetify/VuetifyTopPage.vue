@@ -7,7 +7,7 @@
         app
         dark
         v-model="isDrawer"
-        class="bule lighten-3">
+        class="blue lighten-3">
         <v-container
           fluid
           style="min-height: 0;"
@@ -16,7 +16,7 @@
             <v-layout wrap column>
               <v-flex>
                 <template
-                  v-for="(menu, index) in menulist">
+                  v-for="(menu, index) in menuList">
                   <v-list-tile :key="index" @click="onClickNavigationItem(menu)">
                     <v-list-tile-action>
                       <v-icon>{{ menu.icon }}</v-icon>
@@ -27,7 +27,6 @@
                   </v-list-tile>
                 </template>
               </v-flex>
-
             </v-layout>
           </v-list>
         </v-container>
@@ -35,12 +34,12 @@
 
       <v-toolbar
         dark
-        color="bule"
+        color="blue"
         fixed
         clipped-left
         app>
         <v-toolbar-side-icon @click.stop="isDrawer = !isDrawer"></v-toolbar-side-icon>
-        <v-toolbar-title>{{ toolbarTitle }}</v-toolbar-title>
+        <v-toolbar-title>{{ toolberTitle }}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
 
@@ -63,25 +62,25 @@
 import { Component, Vue } from 'vue-property-decorator'
 @Component
 export default class VuetifyTopPage extends Vue {
-  toolbarTitle: string = 'vuetify trainnig'
+  toolberTitle: string = 'vuetify trainnig'
 
-  footerbarTitle: string = 'vuetify training 2019'
+  footerTitle: string = 'vuetify training 2019'
   isDrawer: boolean = false
-  menulist: any[] = [
+  menuList: any[] = [
     {
-      to: 'vuetify-child-page1',
+      to: 'vuetify_child_page1',
       label: 'card sample',
       icon: 'dashboard',
     },
     {
-      to: 'vuetify-child-page2',
+      to: 'vuetify_child_page2',
       label: 'v-list v-dialog sample',
-      icon: 'account_box'
+      icon: 'account_box',
     },
     {
-      to: 'vuetify-child-page3',
+      to: 'vuetify_child_page3',
       label: 'v-bottom-nav sample',
-      icon: 'gavel'
+      icon: 'gavel',
     },
   ]
   mounted() {
@@ -99,5 +98,3 @@ export default class VuetifyTopPage extends Vue {
 .container
   text-align left
 </style>
-
-

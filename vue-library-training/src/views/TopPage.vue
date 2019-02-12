@@ -1,6 +1,7 @@
 <template>
   <div class="top">
-    <router-link :to="{ name: 'vue_router_top_page' }">Router</router-link>
+    <p><router-link :to="{ name: 'vue_router_top_page' }">Router</router-link></p>
+    <p><router-link :to="{ name: 'vuetify_top_page' }">Vuetify</router-link></p> 
   </div>
 </template>
 
