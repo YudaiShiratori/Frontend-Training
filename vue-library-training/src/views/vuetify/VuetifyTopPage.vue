@@ -22,7 +22,7 @@
                       <v-icon>{{ menu.icon }}</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                      <v-list-title><b>{{ menu.label }}</b></v-list-title>
+                      <v-list-title>{{ menu.label }}</v-list-title>
                     </v-list-tile-content>
                   </v-list-tile>
                 </template>
