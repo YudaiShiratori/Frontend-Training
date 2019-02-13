@@ -44,7 +44,7 @@
       </v-toolbar>
 
       <v-container>
-        <v-fade-transition mode="out-in">
+        <v-fade-transition>
           <router-view />
         </v-fade-transition>
       </v-container>
