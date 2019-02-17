@@ -29,6 +29,11 @@
                 </v-tabs-items>
               </v-tabs>
             </v-flex>
+            <v-flex style="margin: 16px;" v-else>
+              <v-carousel>
+                <v-carousel-item v-for="(item, index) in bottomNaviData2" :key="index" :src="item.src"/>
+              </v-carousel>
+            </v-flex>
           </div>
         </template>
         <v-bottom-nav
@@ -50,6 +55,16 @@
             @click="onClickTab(1)">
             <span>タブ2</span>
             <v-icon>favorite</v-icon>
+          </v-btn>
+          <v-btn>
+          <v-btn
+            color="teal"
+            flat
+            value="nearby"
+            @click="onClickTab(2)">
+            <span>タブ3</span>
+            <v-icon>place</v-icon>
+          </v-btn>
           </v-btn>
         </v-bottom-nav>
         <v-snackbar
@@ -79,6 +94,12 @@ export default class VuetifyChildPage3 extends Vue {
     model: 'tab-2',
     text: 'menu-tab',
   }
+  bottomNaviData2: any = [
+    { src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg' },
+    { src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg' },
+    { src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg' },
+    { src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg'},
+  ]
 
   isSnackbar: boolean = false
   SnackbarText = ''
