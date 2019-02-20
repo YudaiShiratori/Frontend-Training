@@ -11,7 +11,8 @@
         <v-container
           fluid
           style="min-height: 0;"
-          grid-list-lg>
+          grid-list-lg
+          >
           <v-list>
             <v-layout wrap column>
               <v-flex>
