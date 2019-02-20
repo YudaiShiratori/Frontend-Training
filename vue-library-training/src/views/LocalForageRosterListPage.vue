@@ -99,8 +99,8 @@ export default class LocalForageRosterListPage extends Vue {
   isLoading: boolean = false
 
   name: string = 'ゲスト'
-  age: number = 20
-  gender: string = '男性'
+  age: number = 22
+  gender: string = '女性'
 
   items: any[] = []
 
@@ -184,17 +184,10 @@ export default class LocalForageRosterListPage extends Vue {
     this.isUpdate = false
   }
 
-    /**
-   * 登録ラベルを取得
-   */
   get getRegistLabel(): string {
     return this.isUpdate === true ? '更新' : '登録'
-  }
-  /**
-   * LocalStorageへデータを書き込む
-   * １つのkeyに対してデータを保存する仕様。
-   * 配列ごと保存する。
-   */
+  } 
+
   async write() {
     try {
       const data = {
@@ -202,7 +195,7 @@ export default class LocalForageRosterListPage extends Vue {
         createdAt: new Date(),
         updatedAt: new Date(),
         name: this.name,
-        age: Number(this.age),  // v-text-fieldで入力するとString型になるためNumber型へ変換
+        age: Number(this.age),
         gender: this.gender,
       }
       this.items.push(data)
@@ -212,27 +205,23 @@ export default class LocalForageRosterListPage extends Vue {
       console.error('database error', error)
     }
   }
-  /**
-   * LocalStorageからデータを取得
-   */
+  
   async read() {
     try {
       const result = await localforage.getItem(this.localforageKey)
-      if (result) {
+      if(result) {
         this.items = result as any[]
       }
       console.log(this.items)
-    } catch (error) {
+    } catch(error) {
       console.error('database error', error)
     }
   }
-  /**
-   * LocalStorageのデータを更新
-   */
+
   async update(id: string) {
     try {
       this.items = this.items.map((item: any) => {
-        if (item.uid === id) {
+        if(item.uid === id) {
           const data: any = item
           data.updatedAt = new Date()
           data.name = this.name
@@ -243,48 +232,39 @@ export default class LocalForageRosterListPage extends Vue {
         return item
       })
       await localforage.setItem(this.localforageKey, this.items)
-    } catch (error) {
-      console.error('database error', error)
+    } catch(error) {
+      console.error(error)
     }
   }
-  /**
-   * LocalStorageのデータを削除
-   * Keyに紐づくデータを全て削除する関数removeItemだが、
-   * 中身の細かいデータを削除する場合は削除対象のデータを除いたものを保存する必要がある。
-   */
+
   async delete(id: string) {
     try {
-      this.items = this.items.filter((item: any) => item.uid !== id)
+      this.items = this.items.filter((item :any) => item.uid !== id)
       await localforage.setItem(this.localforageKey, this.items)
-    } catch (error) {
+    } catch(error) {
       console.error('database error', error)
     }
   }
-  /**
-   * データのuidを取得
-   */
+
   getDataUid(): number {
-    if (this.items) {
+    if(this.items) {
       let maxNumber = 0
       this.items.forEach((item: any) => {
-        if (maxNumber < item.uid) { maxNumber = item.uid }
+        if(maxNumber < item.uid) { maxNumber == item.uid }
       })
       return maxNumber + 1
     } else {
       return 0
     }
-  }
-  /**
-   * uidからデータを取得
-   */
-  // getDataFromUid(uid: string): any {
-  //   if (this.items) {
-  //     return this.items.filter((element, index, array) => uid === element.uid)[0]
-  //   } else {
-  //     return undefined
-  //   }
-  // }
+  } 
 
+  getdataFromUid(uid: string): any {
+    if (this.items) {
+      return this.items.filter((element, index, array) => uid === element.uid)[0]
+    } else {
+      return undefined
+    }
+  }
 }
 </script>
 
