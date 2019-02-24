@@ -11,6 +11,7 @@ import VuetifyChildPage1 from '@/views/vuetify/VuetifyChildPage1.vue'
 import VuetifyChildPage2 from '@/views/vuetify/VuetifyChildPage2.vue'
 import VuetifyChildPage3 from '@/views/vuetify/VuetifyChildPage3.vue'
 import LocalForageRosterListPage from '@/views/LocalForageRosterListPage.vue'
+import AxiosLesson from '@/views/AxiosLesson.vue'
 
 
 Vue.use(Router);
@@ -72,6 +73,11 @@ export default new Router({
       path: '/localforage',
       name: 'LocalForageRosterListPage',
       component: LocalForageRosterListPage,
+    },
+    {
+      path: '/axios',
+      name: 'AxiosLesson',
+      component: AxiosLesson,
     },
     {
       path: 'not_found_page',
