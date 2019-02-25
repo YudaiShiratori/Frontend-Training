@@ -79,10 +79,10 @@
     </v-flex>
     <v-dialog
       v-model="isDialog"
-      width="500px">
-      <v-card class="dialog-conteiner">
+      width="500">
+      <v-card class="dialog-container">
         <v-card-title
-          class="headline gray lighten-2"
+          class="headline grey lighten-2"
           primary-title>
           {{ selectedItem.title }}
         </v-card-title>
@@ -117,7 +117,7 @@ export default class AxiosLesson extends Vue {
   })
 
   menuTab: any = {
-    model: `tab-0`,
+    model: 'tab-0',
     contents: [
       { id: 0, title: "ユーザー" },
       { id: 1, title: "記事" },
@@ -125,15 +125,15 @@ export default class AxiosLesson extends Vue {
   }
 
   users: any[] = [
-    { header: '取得中'}
+    { header: '取得中'},
   ]
 
   items: any[] = [
-    { header: '取得中'}
+    { header: '取得中'},
   ]
 
   isDialog: boolean = false
-  selectedItem: {
+  selectedItem: any = {
     id: '',
     avatar: '',
     title: '',
@@ -141,7 +141,7 @@ export default class AxiosLesson extends Vue {
   }
   mounted () {
     this.getUsers()
-    this.getItems(NEM)
+    this.getItems('NEM')
   }
 
   async getUsers() {
@@ -170,107 +170,12 @@ export default class AxiosLesson extends Vue {
     }
   }
 
-
-}
-</script>
-
-<!--
-<script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import axios from 'axios'
-@Component
-export default class AxiosLesson extends Vue {
-  title: string = 'AxiosLesson'
-  /**
-   * axiosを初期化する
-   * 予めリクエストを送るAPIをbaseURLとして設定することができる
-   */
-  axios = axios.create({
-    headers: { 'Content-Type': 'application/json' },
-    baseURL: 'https://qiita.com/api/v2',
-  })
-  /**
-   * menu-tab
-   */
-  menuTab: any = {
-    model: 'tab-0',
-    contents: [
-      { id: 0, title: 'ユーザー' },
-      { id: 1, title: '記事' },
-    ],
-  }
-  /**
-   * User情報
-   */
-  users: any[] = [
-    { header: '取得中' },
-  ]
-  /**
-   * 記事情報
-   */
-  items: any[] = [
-    { header: '取得中' },
-  ]
-  /**
-   * Dialog
-   */
-  isDialog: boolean = false
-  selectedItem: any = {
-    id: '',
-    avatar: '',
-    title: '',
-    url: '',
-  }
-  mounted() {
-    this.getUsers()
-    this.getItems('NEM')
-  }
-  /**
-   * axiosでusersを取得する
-   */
-  async getUsers() {
-    try {
-      const result = await this.axios.get('/users')
-      console.log('getUsers', result.data)
-      if (result.data) {
-        /**
-         * header追加
-         */
-        this.users = [
-          { header: `${result.data.length} 件` },
-        ]
-        result.data.forEach((element: any) => {
-          if (('id' in element) && ('profile_image_url' in element) && ('name' in element)) {
-            const item = {
-              id: element.id,
-              avatar: element.profile_image_url,
-              title: element.name ? element.name : element.id,
-              url: `https://qiita.com/${element.id}`,
-            }
-            /**
-             * 付箋追加
-             */
-            this.users.push({ divider: true, inset: true })
-            /**
-             * データ追加
-             */
-            this.users.push(item)
-          }
-        })
-      }
-    } catch (error) {
-      console.log('axios error', error)
-    }
-  }
-  /**
-   * axiosでuserの詳細情報を取得する
-   */
   async getUserDetail(id: string) {
     try {
       const result = await this.axios.get(`/users/${id}`)
       console.log('getUserDetail', result.data)
       const data = result.data
-      if (('id' in data) && ('profile_image_url' in data) && ('name' in data)) {
+      if(('id' in data) && ('profile_image_url' in data) && ('name' in data)) {
         this.selectedItem = {
           id: data.id,
           avatar: data.profile_image_url,
@@ -279,28 +184,23 @@ export default class AxiosLesson extends Vue {
         }
       }
     } catch (error) {
-      console.log('axios error', error)
+      console.log(error)
     }
   }
-  /**
-   * axiosで記事を検索する /api/v2/items
-   */
- async getItems(searchText: string) {
+
+  async getItems(searchText: string) {
     try {
       const params: any = {
         query: searchText,
       }
       const result = await this.axios.get('/items', { params })
       console.log('getItems', result.data)
-      if (result.data) {
-        /**
-         * header追加
-         */
+      if(result.data) {
         this.items = [
-          { header: `${result.data.length} 件` },
+          { header: `${result.data.length}件`},
         ]
         result.data.forEach((element: any) => {
-          if (('id' in element) && ('title' in element) && ('url' in element) && ('user' in element) ) {
+          if(('id' in element) && ('title' in element) && ('url' in element) && ('user' in element)) {
             if ('profile_image_url' in element.user) {
               const item = {
                 id: element.id,
@@ -308,22 +208,17 @@ export default class AxiosLesson extends Vue {
                 title: element.title,
                 url: element.url,
               }
-              /**
-               * 付箋追加
-               */
-              this.items.push({ divider: true, inset: true })
-              /**
-               * データ追加
-               */
+              this.items.push({ divider: true, inset: true})
               this.items.push(item)
             }
           }
         })
       }
-    } catch (error) {
-      console.log('axios error', error)
+    } catch(error) {
+      console.log(error)
     }
   }
+
   async onClickListUsers(item: any) {
     console.log(item)
     await this.getUserDetail(item.id)
@@ -336,7 +231,6 @@ export default class AxiosLesson extends Vue {
   }
 }
 </script>
--->
 
 <style lang="stylus">
 .container
