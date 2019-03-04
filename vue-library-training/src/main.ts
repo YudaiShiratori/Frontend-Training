@@ -4,7 +4,9 @@ import router from './router';
 import store from './store';
 import Vuetify from 'vuetify'
 import colors from 'vuetify/es5/util/colors'
+// import SuiVue from 'semantic-ui-vue';
 
+// Vue.use(SuiVue);
 Vue.use(Vuetify, {
   theme: {
     original: colors.purple.base,

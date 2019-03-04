@@ -109,7 +109,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import axios from 'axios'
 @Component
 export default class AxiosLesson extends Vue {
-  title: string = 'AxiosLesson'
+  title: string = process.env.APP_TITLE
 
   axios = axios.create({
     headers: { 'Content-Type': 'application/json'},
@@ -183,7 +183,7 @@ export default class AxiosLesson extends Vue {
           url: `https://qiita.com/${data.id}`,
         }
       }
-    } catch (error) {
+    } catch(error) {
       console.log(error)
     }
   }
