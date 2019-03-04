@@ -183,7 +183,7 @@ export default class AxiosLesson extends Vue {
           url: `https://qiita.com/${data.id}`,
         }
       }
-    } catch (error) {
+    } catch(error) {
       console.log(error)
     }
   }
