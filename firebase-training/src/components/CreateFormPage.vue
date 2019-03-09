@@ -6,7 +6,7 @@
           <h2>memo form</h2>
           <v-flex style="margin: 24px;" xs12 sm6 offset-sm3>
             <v-textarea v-model="memo" outline label="メモ" /> 
-            <v-btn @click="onRegist" :loading="loading" color="blue" class="white--text">
+            <v-btn @click="onRegist" :loading="isLoading" color="blue" class="white--text">
               登録
             </v-btn>
           </v-flex>
@@ -15,7 +15,7 @@
           <v-flex>
             <h3>登録したmemo</h3>
             <v-flex style="margin: 24px;">
-              <v-btn @click="getItems" :loading="loading" color="blue" class="white--text">
+              <v-btn @click="getItems" :loading="isLoading" color="blue" class="white--text">
                 読み込み
               </v-btn>
               <v-data-table 
@@ -53,7 +53,7 @@ import { format } from 'date-fns'
 })
 
 export default class CreateFormPage extends Vue {
-  loading: boolean = false
+  isLoading: boolean = false
 
   memo: string= ''
 
@@ -84,18 +84,18 @@ export default class CreateFormPage extends Vue {
   }
 
   async onRegist() {
-    this.loading = true
+    this.isLoading = true
     await this.writeFirestore()
     await this.getItems()
     this.clear()
-    this.loading = false
+    this.isLoading = false
   }
 
   async getItems(){
     console.log('getItems')
-    this.loading = true
+    this.isLoading = true
     await this.readFirestore()
-    this.loading = false
+    this.isLoading = false
   }
 
   clear() {
