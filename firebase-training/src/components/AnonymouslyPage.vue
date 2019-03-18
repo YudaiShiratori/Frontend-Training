@@ -28,7 +28,6 @@
           </v-flex>
         </v-flex>
       </v-card>
-
     </v-flex>
   </div>
 </template>
@@ -37,8 +36,9 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+
 @Component({
-  name: 'AnonymouslyPage',
+  name: 'AnonymouslyPage'
 })
 
 export default class AnonymouslyPage extends Vue {

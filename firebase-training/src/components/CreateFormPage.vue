@@ -1,6 +1,7 @@
 <template>
   <div class="top">
     <v-flex>
+      <AnonymouslyPage />
       <v-card class="container">
         <v-flex>
           <h2>memo form</h2>
@@ -41,10 +42,13 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import firebase from 'firebase/app'
 import { format } from 'date-fns'
-
+import AnonymouslyPage from '@/components/AnonymouslyPage.vue'
 
 @Component({
   name: 'CreateFormPage',
+  components: {
+    AnonymouslyPage,
+  },
   filters: {
     dateFormat(date: Date) {
       return format(date, 'YYYY/MM/DD HH:mm:ss');
