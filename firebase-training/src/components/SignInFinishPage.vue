@@ -102,11 +102,6 @@ export default class SignInFinishPage extends Vue {
     this.getItems()
   }
   async getItems() {
-    console.log('getItems')
-    /**
-     * 認証状態を監視する。
-     * 認証状態が変わると処理される
-     */
     firebase.auth().onAuthStateChanged((user) => {
       if (user !== null) {
         console.log('user', user.toJSON())
