@@ -20,7 +20,7 @@ export default new Router({
     },
     {
       path: '/create-form-page',
-      name: 'CreateFormPage',
+      name: 'createFormPage',
       component: CreateFormPage,
     },
     {
@@ -40,8 +40,8 @@ export default new Router({
     },
     {
       path: '/sign-in-finish-page',
-      name: 'SingnInFinishPage',
+      name: 'sign_in_finish_page',
       component: SignInFinishPage,
-    }
+    },
   ],
 });
