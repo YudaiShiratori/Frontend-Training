@@ -157,11 +157,11 @@ export default class EmailAuthPage extends Vue {
       const messages = this.validationSignUp()
       if (messages.length !== 0) {
         messages.forEach((item) => {
-          this.signUpResultMessge += item + '<br>'
+          this.signUpResultMessage += item + '<br>'
         })
         return
       }
-    const result = await firebase.auth().createUserWithEamilAndPassword(this.signUpEmail,  this.signUpPassword);
+    const result = await firebase.auth().createUserWithEmailAndPassword(this.signUpEmail,  this.signUpPassword);
     const user = firebase.auth().currentUser
     if (user !== null) {
       await user.sendEmailVerification()
@@ -184,7 +184,7 @@ export default class EmailAuthPage extends Vue {
     return messages
   }
   
-  async SignOut() {
+  async signOut() {
     try {
       const result = await firebase.auth().signOut()
       this.isLoginStatus = false

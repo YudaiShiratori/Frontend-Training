@@ -6,6 +6,7 @@ import RosterListPage from '@/components/RosterListPage.vue';
 import ShopItemBuyPage from '@/components/ShopItemBuyPage.vue';
 import AnonymouslyPage from '@/components/AnonymouslyPage.vue';
 import SignInFinishPage from '@/components/SignInFinishPage.vue';
+import EmailAuthPage from '@/components/EmailAuthPage.vue';
 
 Vue.use(Router);
 
@@ -42,6 +43,11 @@ export default new Router({
       path: '/sign-in-finish-page',
       name: 'sign_in_finish_page',
       component: SignInFinishPage,
+    },
+    {
+      path: '/email-auth-page',
+      name: 'email_auth_page',
+      component: EmailAuthPage,
     },
   ],
 });

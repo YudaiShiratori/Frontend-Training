@@ -104,7 +104,6 @@ export default class SignInFinishPage extends Vue {
   async getItems() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user !== null) {
-        console.log('user', user.toJSON())
         this.user = user
         if (user.isAnonymous) {
           this.authType = '匿名認証'
@@ -113,7 +112,7 @@ export default class SignInFinishPage extends Vue {
           user.providerData.forEach((item) => {
             if (item !== null) {
               if (item.email !== null && item.providerId === 'password') {
-                this.authType += 'メール認証'
+                this.authType = 'メール認証'
               }
             }
           })
@@ -122,17 +121,15 @@ export default class SignInFinishPage extends Vue {
         this.displayName = user.displayName ? user.displayName : 'なし'
         this.email = user.email ? user.email : 'なし'
         this.emailVerified = user.emailVerified
-        this.phoneNumber = user.phoneNumber ? user.phoneNumber : 'なし'
+        this.phoneNumber = user.phoneNumber? user.phoneNumber : 'なし'
         this.photoURL = user.photoURL ? user.photoURL : 'なし'
         if ('createdAt' in user.toJSON()) {
           const createdAt = Number((user.toJSON() as any).createdAt)
           this.createdAt = new Date(createdAt)
-          console.log('createdAt', this.createdAt)
         }
         if ('lastLoginAt' in user.toJSON()) {
           const lastLoginAt = Number((user.toJSON() as any).lastLoginAt)
           this.lastLoginAt = new Date(lastLoginAt)
-          console.log('lastLoginAt', this.lastLoginAt)
         }
       }
     })
@@ -157,8 +154,28 @@ export default class SignInFinishPage extends Vue {
       return false
     }
   }
+
+  get authStatusText() {
+    if (this.authType !== null) {
+      switch (this.authType) {
+        case 0:
+          return 'メール認証'
+        case 1:
+          return '匿名認証'
+        case 2:
+          return 'Twitter認証'
+        case 3:
+          return 'Facebook認証'
+        default:
+          return '不明'
+      }
+    } else {
+      return '-'
+    }
+  }
 }
 </script>
+
 <style lang="stylus">
 .top
   margin 10px
