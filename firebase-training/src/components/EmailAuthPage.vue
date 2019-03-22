@@ -144,12 +144,34 @@ export default class EmailAuthPage extends Vue {
       this.loginResultMessage = ''
       const result = await firebase.auth().signInWithEmailAndPassword(this.loginEmail, this.loginPassword)
       const user = firebase.auth().currentUser
+      if (user !== null) {
+        await this.updateUser(user.uid)
+      }
       this.$router.push({ name: 'sign_in_finish_page'})
     } catch(error) {
       console.error(error)
       this.loginResultMessage = error.message
     }
-   }
+  }
+
+  async updateUser(userId: string) {
+    try {
+      const db: firebase.firestore.Firestore = firebase.firestore()
+      const batch: firebase.firestore.WriteBatch = db.batch()
+      const ref: firebase.firestore.DocumentReference = db.collection('version/3/user').doc(userId)
+      const item = await ref.get()
+      if (item.exists){
+        batch.set(ref, {
+          updatedId: new Date()
+        }, { merge: true })
+        await batch.commit()
+      } else {
+        throw new Error('ユーザー情報がありません')
+      }
+    } catch (error) {
+      throw error
+    }
+  }
 
   async signUp() {
     try {
@@ -165,6 +187,7 @@ export default class EmailAuthPage extends Vue {
     const user = firebase.auth().currentUser
     if (user !== null) {
       await user.sendEmailVerification()
+      await this.createUser(user.uid)
       this.signUpResultMessage = '本人確認メールを送信しました。ログインしてください'
     }
     } catch (error) {
@@ -182,6 +205,23 @@ export default class EmailAuthPage extends Vue {
       messages.push('確認用パスワードと一致してません')
     }
     return messages
+  }
+
+  async createUser(userId: string) {
+    try {
+      const db: firebase.firestore.Firestore = firebase.firestore()
+      const batch: firebase.firestore.WriteBatch = db.batch()
+      const ref: firebase.firestore.DocumentReference = db.collection('version/3/user').doc(userId)
+      batch.set(ref, {
+        uid: userId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        name: 'ゲスト'
+      }, { merge: true })
+      await batch.commit()
+    } catch (error) {
+      console.error(error)
+    }
   }
   
   async signOut() {
