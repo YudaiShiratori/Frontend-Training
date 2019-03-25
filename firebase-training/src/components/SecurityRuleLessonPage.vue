@@ -451,37 +451,29 @@ export default class SecurityRuleLessonPage extends Vue {
    * ユーザーデータと秘密データを取得する（匿名ユーザーより）
    */
   async getUserDataFromAnonymously() {
-    try {
-      if (this.user !== null) {
-        this.userFromAnonymously = ''
-        this.userSecretFromAnonymously = ''
-        const db: firebase.firestore.Firestore = firebase.firestore()
-        const batch: firebase.firestore.WriteBatch = db.batch()
-        const userRef: firebase.firestore.CollectionReference = db.collection('version/3/user')
-        const userItems = await userRef.get()
-        userItems.forEach(async (user) => {
-          try {
-            if (user.exists && this.user!.uid !== user.id) {
-              if ('name' in user.data()) {
-                this.userFromAnonymously += `${user.id}<br>${user.data().name}`
-              }
-              const secret = await user.ref.collection('secret').doc('1').get()
-              if (secret.exists) {
-                this.userSecretFromAnonymously += secret.data()
-              }
+    try (this.user !== null) {
+      this.userFromAnonymously = ''
+      this.userSecretFromAnonymously = ''
+      const db: firebase.firestore.Firestore = firebase.firestore()
+      const batch: firebase.firestore.WriteBatch = db.batch()
+      const UserRef: firebase.firestore.CollectionReference = db.collection('version/3/user')
+      const userItems = await userRef.get()
+      userItems.forEach(async (user) => {
+        try {
+          if (user.exiss && this.user!.uid !== user.id) {
+            if ('name' in user.data()) {
+              this.userFromAnonymously += `${user.id}<br>${user.data().name}`
             }
-          } catch (error) {
-            if (this.isSecureBlock(error.message)) {
-              this.userSecretFromAnonymously = 'セキュリティルールによりアクセスできませんでした。'
-            } else {
-              this.userSecretFromAnonymously = error.message
+            const secret = await user.ref.collection('secret').doc(1).get()
+            if (secret.exists) {
+              this.userSecretFromAnonymously += secret.data()
             }
           }
-        })
-      }
-    } catch (error) {
-      console.error('firebase error', error)
-      this.resultMessage = error.message
+        } catch (error) {
+          console.error(error)
+          this.userSecretFromAnonymously = error.message
+        }
+      })
     }
   }
   /**
