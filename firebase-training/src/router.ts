@@ -7,6 +7,7 @@ import ShopItemBuyPage from '@/components/ShopItemBuyPage.vue';
 import AnonymouslyPage from '@/components/AnonymouslyPage.vue';
 import SignInFinishPage from '@/components/SignInFinishPage.vue';
 import EmailAuthPage from '@/components/EmailAuthPage.vue';
+import SecurityRuleLessonPage from '@/components/SecurityRuleLessonPage.vue';
 
 Vue.use(Router);
 
@@ -48,6 +49,11 @@ export default new Router({
       path: '/email-auth-page',
       name: 'email_auth_page',
       component: EmailAuthPage,
+    },
+    {
+      path: '/security-rule-lesson-page',
+      name: 'security_rule_lesson_page',
+      component: SecurityRuleLessonPage,
     },
   ],
 });

@@ -308,41 +308,7 @@ export default class SecurityRuleLessonPage extends Vue {
     }
     this.isLoading = false
   }
-  /**
-   * 他人のユーザーデータを更新
-   */
-  async onUpdateOtherUser(text: string) {
-    this.isLoading = true
-    try {
-      this.resultMessage = ''
-      if (this.user !== null) {
-        const db: firebase.firestore.Firestore = firebase.firestore()
-        const collection: firebase.firestore.CollectionReference = db.collection('version/3/user')
-        const users = await collection.get()
-        users.forEach(async (item) => {
-          try {
-            if (item.exists && this.user!.uid != item.id)
-          } catch (error) {
-            console.error(error)
-            if (this.isSecureBlock(error.message)) {
-              this.resultMessage = 'セキュリティルールよりアクセス不可'
-            } else {
-              this.resultMessage = error.message
-            }
-          }
-        })
-      } else {
-        this.resultMessage = 'ログインしてください'
-      }
-    } catch (error) {
-      this.resultMessage = error.message
-    }
-    this.isLoading = false
-  }
-  /**
-   * 他人のユーザー秘密データを更新
-   */
-  async onUpdateSecretOtherUser(text: string) {
+   async onUpdateOtherUser(text: string) {
     this.isLoading = true
     try {
       this.resultMessage = ''
@@ -354,7 +320,7 @@ export default class SecurityRuleLessonPage extends Vue {
           try {
             /** 自分のユーザーID以外のIDを更新させに行く */
             if (item.exists && this.user!.uid !== item.id) {
-              await this.postSecret(item.id, text)
+              await this.updateUser(item.id, text)
             }
           } catch (error) {
             console.error('firebase error', error)
@@ -447,35 +413,86 @@ export default class SecurityRuleLessonPage extends Vue {
       throw error
     }
   }
+
   /**
    * ユーザーデータと秘密データを取得する（匿名ユーザーより）
    */
   async getUserDataFromAnonymously() {
-    try (this.user !== null) {
-      this.userFromAnonymously = ''
-      this.userSecretFromAnonymously = ''
-      const db: firebase.firestore.Firestore = firebase.firestore()
-      const batch: firebase.firestore.WriteBatch = db.batch()
-      const UserRef: firebase.firestore.CollectionReference = db.collection('version/3/user')
-      const userItems = await userRef.get()
-      userItems.forEach(async (user) => {
-        try {
-          if (user.exiss && this.user!.uid !== user.id) {
-            if ('name' in user.data()) {
-              this.userFromAnonymously += `${user.id}<br>${user.data().name}`
+    try {
+      if (this.user !== null) {
+        this.userFromAnonymously = ''
+        this.userSecretFromAnonymously = ''
+        const db: firebase.firestore.Firestore = firebase.firestore()
+        const batch: firebase.firestore.WriteBatch = db.batch()
+        const userRef: firebase.firestore.CollectionReference = db.collection('version/3/user')
+        const userItems = await userRef.get()
+        userItems.forEach(async (user) => {
+          try {
+            if (user.exists && this.user!.uid !== user.id) {
+              if ('name' in user.data()) {
+                this.userFromAnonymously += `${user.id}<br>${user.data().name}`
+              }
+              const secret = await user.ref.collection('secret').doc('1').get()
+              if (secret.exists) {
+                this.userSecretFromAnonymously += secret.data()
+              }
             }
-            const secret = await user.ref.collection('secret').doc(1).get()
-            if (secret.exists) {
-              this.userSecretFromAnonymously += secret.data()
+          } catch (error) {
+            if (this.isSecureBlock(error.message)) {
+              this.userSecretFromAnonymously = 'セキュリティルールによりアクセスできませんでした。'
+            } else {
+              this.userSecretFromAnonymously = error.message
             }
           }
-        } catch (error) {
-          console.error(error)
-          this.userSecretFromAnonymously = error.message
-        }
-      })
+        })
+      }
+    } catch (error) {
+      console.error('firebase error', error)
+      this.resultMessage = error.message
     }
   }
+
+  
+  /**
+   * 他人のユーザー秘密データを更新
+   */
+  async onUpdateSecretOtherUser(text: string) {
+    this.isLoading = true
+    try {
+      this.resultMessage = ''
+      if (this.user !== null) {
+        const db: firebase.firestore.Firestore = firebase.firestore()
+        const collection: firebase.firestore.CollectionReference = db.collection('version/3/user')
+        const users = await collection.get()
+        users.forEach(async (item) => {
+          try {
+            /** 自分のユーザーID以外のIDを更新させに行く */
+            if (item.exists && this.user!.uid !== item.id) {
+              await this.postSecret(item.id, text)
+            }
+          } catch (error) {
+            console.error('firebase error', error)
+            /***
+             * Missing or insufficient permissions. のメッセージの場合は
+             * セキュリティールールによりアクセスできないという意味
+             */
+            if (this.isSecureBlock(error.message)) {
+              this.resultMessage = 'セキュリティルールによりアクセスできませんでした。'
+            } else {
+              this.resultMessage = error.message
+            }
+          }
+        })
+      } else {
+        this.resultMessage = 'ログインしてください。'
+      }
+    } catch (error) {
+      console.error('firebase error', error)
+      this.resultMessage = error.message
+    }
+    this.isLoading = false
+  }
+
   /**
    * ユーザーデータを更新する。
    */
