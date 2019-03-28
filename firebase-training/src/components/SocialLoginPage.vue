@@ -44,3 +44,96 @@
     </v-flex>
   </div>
 </template>
+
+
+<script lang="ts">
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+@Component({
+  name: 'SocialLoginPage',
+})
+export default class SocialLoginPage extends Vue {
+  
+  isLoading: boolean = false 
+  isLoginsStatus: boolean | null = null
+  mounted () {
+    this.getItems()
+  }
+  getItems() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user !== null) {
+        this.isLoginsStatus = true
+      } else {
+        this.isLoginsStatus = false
+      }
+    })
+  }
+  
+  async onLogin(type: number) {
+    this.isLoading = true
+    switch (type) {
+      case 0:
+        await this.signInTwitter()
+      case 1:
+        await this.signInFacebook()
+    }
+    this.isLoading = false
+  }
+  async onLogout() {
+    this.isLoading = true
+    await this.signOut()
+    this.isLoading = false
+  }
+  /**
+   * Twitterでログインする
+   */
+  async signInTwitter() {
+    try {
+      const provider = new firebase.auth.TwitterAuthProvider()
+      const result = await firebase.auth().signInWithPopup(provider)
+      console.log(result)
+      const user = firebase.auth().currentUser
+      if (user !== null) {
+        console.log('user', user.uid)
+      }
+      this.$router.push({ name: 'sign_in_finish_page' })
+    } catch (error) {
+      console.error('firebase error', error)
+    }
+  }
+  /**
+   * Facebookでログインする
+   */
+  async signInFacebook() {
+    try {
+      const provider = new firebase.auth.FacebookAuthProvider()
+      const result = await firebase.auth().signInWithPopup(provider)
+      console.log(result)
+      const user = firebase.auth().currentUser
+      if (user !== null) {
+        console.log('user', user.uid)
+      }
+      this.$router.push({ name: 'sign_in_finish_page' })
+    } catch (error) {
+      console.error('firebase error', error)
+    }
+  }
+  /**
+   * ログアウトする
+   */
+  async signOut() {
+    try {
+      const result = await firebase.auth().signOut()
+      console.log(result)
+      this.isLoginStatus = false
+    } catch (error) {
+      console.error('firebase error', error)
+    }
+  }
+  get loginStatusText() {
+    return this.isLoginStatus === true ? 'ログイン中' : 'ログアウト中'
+  }
+}
+</script>
+
