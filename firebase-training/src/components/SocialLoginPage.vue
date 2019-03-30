@@ -85,9 +85,7 @@ export default class SocialLoginPage extends Vue {
     await this.signOut()
     this.isLoading = false
   }
-  /**
-   * Twitterでログインする
-   */
+  
   async signInTwitter() {
     try {
       const provider = new firebase.auth.TwitterAuthProvider()
@@ -96,15 +94,13 @@ export default class SocialLoginPage extends Vue {
       const user = firebase.auth().currentUser
       if (user !== null) {
         console.log('user', user.uid)
-      }
+      } 
       this.$router.push({ name: 'sign_in_finish_page' })
-    } catch (error) {
+    } catch(error) {
       console.error('firebase error', error)
     }
   }
-  /**
-   * Facebookでログインする
-   */
+
   async signInFacebook() {
     try {
       const provider = new firebase.auth.FacebookAuthProvider()
@@ -119,6 +115,7 @@ export default class SocialLoginPage extends Vue {
       console.error('firebase error', error)
     }
   }
+  
   /**
    * ログアウトする
    */

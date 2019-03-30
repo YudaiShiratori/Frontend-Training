@@ -86,7 +86,7 @@ import { format } from 'date-fns'
   },
 })
 export default class SignInFinishPage extends Vue {
-  authType: number | null = null //0匿名　1メール　2Twitter　3Facebook  
+  authType: number | null = null //0メール　1匿名　2Twitter　3Facebook  
   uid: string = ''
   displayName: string = ''
   email: string = ''
@@ -106,17 +106,17 @@ export default class SignInFinishPage extends Vue {
       if (user !== null) {
         this.user = user
         if (user.isAnonymous) {
-          this.authType = 0
+          this.authType = 1
         } else {
           user.providerData.forEach((item) => {
             if (item !== null) {
               if (item.email !== null && item.providerId === 'password') {
-                this.authType = 1
+                this.authType = 0
               }
               if (item.providerId === 'twitter.com') {
                 this.authType = 2
               }
-              if (item.providerId === 'Facebook.com') {
+              if (item.providerId === 'facebook.com') {
                 this.authType = 3
               }
             }
