@@ -8,7 +8,7 @@
             <table border="1" class="table__list">
               <tr>
                 <td width="20%" class="table__key">認証タイプ</td>
-                <td width="80%" class="table__value">{{ authType }}</td>
+                <td width="80%" class="table__value">{{ authStatusText }}</td>
               </tr>
               <tr>
                 <td width="20%" class="table__key">認証ID</td>
@@ -86,7 +86,7 @@ import { format } from 'date-fns'
   },
 })
 export default class SignInFinishPage extends Vue {
-  authType: string = ''
+  authType: number | null = null //0匿名　1メール　2Twitter　3Facebook  
   uid: string = ''
   displayName: string = ''
   email: string = ''
@@ -106,13 +106,18 @@ export default class SignInFinishPage extends Vue {
       if (user !== null) {
         this.user = user
         if (user.isAnonymous) {
-          this.authType = '匿名認証'
+          this.authType = 0
         } else {
-          this.authType = ''
           user.providerData.forEach((item) => {
             if (item !== null) {
               if (item.email !== null && item.providerId === 'password') {
-                this.authType = 'メール認証'
+                this.authType = 1
+              }
+              if (item.providerId === 'twitter.com') {
+                this.authType = 2
+              }
+              if (item.providerId === 'Facebook.com') {
+                this.authType = 3
               }
             }
           })
@@ -121,7 +126,7 @@ export default class SignInFinishPage extends Vue {
         this.displayName = user.displayName ? user.displayName : 'なし'
         this.email = user.email ? user.email : 'なし'
         this.emailVerified = user.emailVerified
-        this.phoneNumber = user.phoneNumber? user.phoneNumber : 'なし'
+        this.phoneNumber = user.phoneNumber ? user.phoneNumber : 'なし'
         this.photoURL = user.photoURL ? user.photoURL : 'なし'
         if ('createdAt' in user.toJSON()) {
           const createdAt = Number((user.toJSON() as any).createdAt)
