@@ -8,6 +8,7 @@ import AnonymouslyPage from '@/components/AnonymouslyPage.vue';
 import SignInFinishPage from '@/components/SignInFinishPage.vue';
 import EmailAuthPage from '@/components/EmailAuthPage.vue';
 import SecurityRuleLessonPage from '@/components/SecurityRuleLessonPage.vue';
+import SocialLoginPage from '@/components/SocialLoginPage.vue';
 
 Vue.use(Router);
 
@@ -54,6 +55,11 @@ export default new Router({
       path: '/security-rule-lesson-page',
       name: 'security_rule_lesson_page',
       component: SecurityRuleLessonPage,
+    },
+    {
+      path: '/social-login',
+      name: 'Social_login',
+      component: SocialLoginPage,
     },
   ],
 });

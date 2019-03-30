@@ -56,16 +56,16 @@ import 'firebase/auth'
 export default class SocialLoginPage extends Vue {
   
   isLoading: boolean = false 
-  isLoginsStatus: boolean | null = null
+  isLoginStatus: boolean | null = null
   mounted () {
     this.getItems()
   }
   getItems() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user !== null) {
-        this.isLoginsStatus = true
+        this.isLoginStatus = true
       } else {
-        this.isLoginsStatus = false
+        this.isLoginStatus = false
       }
     })
   }
@@ -137,3 +137,20 @@ export default class SocialLoginPage extends Vue {
 }
 </script>
 
+<style lang="stylus">
+.top
+  margin 10px
+.container
+  text-align left
+  margin-top 20px
+.subtitle
+  padding-left 12px
+.social
+  text-transform none
+ 
+/** main.tsのvuetifyのcolor設定が機能しないのでここで無理やり変更する. */
+.theme--light.v-btn:not(.v-btn--icon):not(.v-btn--flat).twitter
+  background-color #00aced
+.theme--light.v-btn:not(.v-btn--icon):not(.v-btn--flat).facebook
+  background-color #305097
+</style>
