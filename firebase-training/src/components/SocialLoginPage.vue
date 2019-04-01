@@ -57,13 +57,14 @@ export default class SocialLoginPage extends Vue {
   
   isLoading: boolean = false 
   isLoginStatus: boolean | null = null
-  mounted () {
+  mounted() {
     this.getItems()
   }
   getItems() {
     firebase.auth().onAuthStateChanged((user) => {
       if (user !== null) {
         this.isLoginStatus = true
+        console.log('user', user.uid)
       } else {
         this.isLoginStatus = false
       }
@@ -116,9 +117,6 @@ export default class SocialLoginPage extends Vue {
     }
   }
   
-  /**
-   * ログアウトする
-   */
   async signOut() {
     try {
       const result = await firebase.auth().signOut()

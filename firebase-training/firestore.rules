@@ -35,7 +35,7 @@ service cloud.firestore {
         }
       }
       function getUserAccount(userId) {
-        return get(/databases/$(database)/documents/version/$(versionId)/user/$(userId)));
+        return get(/databases/$(database)/documents/version/$(versionId)/user/$(userId));
       }
 
       match /group/{groupId} {
