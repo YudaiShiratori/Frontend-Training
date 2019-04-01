@@ -51,3 +51,35 @@ function getArrayString(str1: string, str2: string, str3: string): string[] {
   return [`${str1}`,`${str2}`,`${str3}`]
 }
 console.log(getArrayString('俺は', '明日', '勉強する'))
+
+
+function calc(a: number, b: number, type: CalcType): number {
+  switch (type) {
+    case CalcType.Add:
+      return a + b
+    case CalcType.Sub:
+      return a - b
+    case CalcType.Multi:
+      return a * b
+    case CalcType.Div:
+      return a / b
+  }
+}
+enum CalcType {
+  Add,
+  Sub,
+  Multi,
+  Div,
+}
+const a = 10;
+const b = 2;
+console.log('Add', calc(a, b, CalcType.Add))      // Add 12
+console.log('Sub', calc(a, b, CalcType.Sub))      // Sub 8
+console.log('Multi', calc(a, b, CalcType.Multi))  // Multi 20
+console.log('Div', calc(a, b, CalcType.Div))      // Div 5
+
+
+function multiple(nums: number[], multiple: number): number[]{
+  return nums.map((num) => num * multiple )
+}
+console.log('multiple', multiple([10, 2, 4, 1], 3))
