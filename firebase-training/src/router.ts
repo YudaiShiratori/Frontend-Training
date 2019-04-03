@@ -18,8 +18,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'createFormpage',
-      component: CreateFormPage,
+      name: 'Home',
+      component: Home,
     },
     {
       path: '/create-form-page',
