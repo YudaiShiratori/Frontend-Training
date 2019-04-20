@@ -1,20 +1,18 @@
 import firebase from 'firebase/app';
 
 async function getCollectionSample() {
-  const users: UserPractice[] = []
-  const items: firebase.firestore.QuerySnapshot = await this.db.collection(UserPractice.path).get()
+  const users: UserPractice[] = [];
+  const items: firebase.firestore.QuerySnapshot = await this.db.collection(UserPractice.path).get();
   items.docs.forEach((item: firebase.firestore.QueryDocumentSnapshot) => {
     if (item.exists) {
-      const user = new UserPractice(item.id, item.data())
-      users.push(user)
+      const user = new UserPractice(item.id, item.data());
+      users.push(user);
     }
   });
-  console.log('users', users);
 }
 
 class UserPractice {
   public static path: string = 'version/1/userpractice';
-
   public uid: string;
   public name: string = '';
   public age: number = 0;
@@ -25,11 +23,9 @@ class UserPractice {
 
   public db: firebase.firestore.Firestore;
   public collection: firebase.firestore.CollectionReference;
-
-
   constructor(id?: string, data?: any) {
-    this.db = firebase.firestore()
-    this.collection = this.db.collection(UserPractice.path)
+    this.db = firebase.firestore();
+    this.collection = this.db.collection(UserPractice.path);
     if (id !== undefined && id !== null) {
       this.uid = id;
     } else {
@@ -45,7 +41,6 @@ class UserPractice {
       // this.updatedAt = 'updatedAt' in data ? data.name : undefined;
     }
   }
-
   public async save() {
     await this.collection.doc(this.uid).set({
       uid: this.uid,
@@ -61,3 +56,5 @@ class UserPractice {
     await this.collection.doc(id).get();
   }
 }
+
+export { UserPractice };

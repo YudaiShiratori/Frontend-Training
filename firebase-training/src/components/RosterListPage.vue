@@ -150,6 +150,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import firebase from 'firebase/app'
 import { format } from 'date-fns'
+import { UserPractice } from '@/model/FirestoreBase.ts'
 @Component({
   name: 'RosterListPage',
   filters: {
@@ -308,18 +309,19 @@ export default class RosterListPage extends Vue {
    */
   async writeFirestore() {
     try {
-      const db: firebase.firestore.Firestore = firebase.firestore()
-      const collection: firebase.firestore.CollectionReference = db.collection('version/1/users')
-      const id: string = collection.doc().id
-      await collection.doc(id).set({
-        uid: id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        name: this.name,
-        age: Number(this.age),  // v-text-fieldで入力するとString型になるためNumber型へ変換
-        sex: this.sex,
-        isPublished: this.isPublished,
-      })
+      // const db: firebase.firestore.Firestore = firebase.firestore()
+      // const collection: firebase.firestore.CollectionReference = db.collection('version/1/users')
+      // const id: string = collection.doc().id
+      // await collection.doc(id).set({
+      //   uid: id,
+      //   createdAt: new Date(),
+      //   updatedAt: new Date(),
+      //   name: this.name,
+      //   age: Number(this.age),  // v-text-fieldで入力するとString型になるためNumber型へ変換
+      //   sex: this.sex,
+      //   isPublished: this.isPublished,
+      // })
+      UserPractice.save()
     } catch (error) {
       console.error('firebase error', error)
     }
@@ -338,6 +340,7 @@ export default class RosterListPage extends Vue {
         this.items.push(item.data())
       })
       console.log(this.items)
+      // getCollectionSample()
     } catch (error) {
       console.error('firebase error', error)
     }
