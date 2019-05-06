@@ -9,6 +9,7 @@ import SignInFinishPage from '@/components/SignInFinishPage.vue';
 import EmailAuthPage from '@/components/EmailAuthPage.vue';
 import SecurityRuleLessonPage from '@/components/SecurityRuleLessonPage.vue';
 import SocialLoginPage from '@/components/SocialLoginPage.vue';
+import ImageOperationPage from '@/components/ImageOperationPage.vue';
 
 Vue.use(Router);
 
@@ -60,6 +61,11 @@ export default new Router({
       path: '/social-login',
       name: 'Social_login',
       component: SocialLoginPage,
+    },
+    {
+      path: '/image-operation-page',
+      name: 'ImageOperationPage',
+      component: ImageOperationPage,
     },
   ],
 });

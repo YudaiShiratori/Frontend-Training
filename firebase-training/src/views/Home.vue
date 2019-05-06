@@ -9,6 +9,7 @@
       <li><router-link :to="{ name: 'email_auth_page'}">メールログイン</router-link></li>
       <li><router-link :to="{ name: 'security_rule_lesson_page'}">セキュリティルール</router-link></li>
       <li><router-link :to="{ name: 'Social_login'}">ソーシャルログイン</router-link></li>
+      <li><router-link :to="{ name: 'ImageOperationPage'}">写真アップ・モデル化</router-link></li>
     </ul>
   </div>
 </template>
