@@ -10,6 +10,7 @@ import EmailAuthPage from '@/components/EmailAuthPage.vue';
 import SecurityRuleLessonPage from '@/components/SecurityRuleLessonPage.vue';
 import SocialLoginPage from '@/components/SocialLoginPage.vue';
 import ImageOperationPage from '@/components/ImageOperationPage.vue';
+import ImageOperationFirestorePage from '@/components/ImageOperationFirestorePage.vue';
 
 Vue.use(Router);
 
@@ -66,6 +67,11 @@ export default new Router({
       path: '/image-operation-page',
       name: 'ImageOperationPage',
       component: ImageOperationPage,
+    },
+    {
+      path: '/image-operation-firestore',
+      name: 'ImageOperationFirestorePage',
+      component: ImageOperationFirestorePage,
     },
   ],
 });

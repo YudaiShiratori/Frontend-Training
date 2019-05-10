@@ -3,8 +3,14 @@
     <v-flex>
       <v-card class="container">
         <v-flex>
-          <h2>画像の保存、取得、削除</h2>
+          <h2>Firestoreとの連携</h2>
           <v-flex style="margin: 24px;" xs12 sm6 offset-sm3>
+            <v-flex v-if="user!==null">
+              <h3>ファイル名</h3>
+              <v-flex style="margin: 8px">
+                <p v-if="user.image!==undefined">{{ user.image.name }}</p>
+              </v-flex>
+            </v-flex>
             <v-flex>
               <v-flex class="upload-img-container">
                 <img class="uploaded-img" :src="imageData" />
@@ -50,14 +56,17 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import firebase from 'firebase/app'
 import 'firebase/storage'
+import { User } from '@/model/User'
 /** ファイル操作で扱うデータをinterfaceで定義して扱いやすくする */
 import { FileInfo } from '@/ts/interface/FileInfo'
 @Component({
-  name: 'ImageOperationPage',
+  name: 'ImageOperationFirestorePage',
 })
-export default class ImageOperationPage extends Vue {
+export default class ImageOperationFirestorePage extends Vue {
   isLoading: boolean = false
   message: string = ''
+  /** モデルクラス */
+  user: User | null = null
   /**
    * ファイル
    * data: 画像のバイナリデータ
@@ -65,8 +74,26 @@ export default class ImageOperationPage extends Vue {
    * url: Cloud StorageからダウンロードしたデータのURL
    */
   fileInfo: FileInfo = { data: null, file: null, url: null, isDownloaded: false }
-  /** CloudStorageの保存先パス */
-  storagePath: string = '/version/1/folder/'
+  async mounted() {
+    await this.configure()
+  }
+  /** 初期処理 */
+  async configure() {
+    try {
+      /**
+       * 本来であればclass名とコレクション名は同じにすることを推奨するが
+       * レッスン用としてコレクション名はuserpracticeにする
+       */
+      this.user = new User('userpractice', 'user1')
+      await this.user.get()
+      if (this.user.image !== undefined && this.user.image.url !== null) {
+        this.fileInfo.url = this.user.image.url
+        this.fileInfo.isDownloaded = true
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
   get imageData() {
     return this.fileInfo.data !== null ? this.fileInfo.data : this.fileInfo.url
   }
@@ -108,17 +135,14 @@ export default class ImageOperationPage extends Vue {
   async onDownload() {
     this.isLoading = true
     this.message = ''
-    this.clear()
-    this.fileInfo.url = await this.downloadFile()
-    if (this.fileInfo.url !== undefined) {
-      this.fileInfo.isDownloaded = true
-    }
+    await this.downloadFile()
     this.isLoading = false
   }
   /** 削除 */
   async onDelete() {
     this.isLoading = true
     this.message = ''
+    console.log(this.fileInfo)
     if (this.fileInfo.isDownloaded === true) {
       await this.deleteFile()
     }
@@ -128,13 +152,11 @@ export default class ImageOperationPage extends Vue {
   /** ファイルのアップロード */
   async uploadFile(file: File) {
     try {
-      console.log('uploadFile', file)
-      const filename: string = 'filename'
-      const path: string = this.storagePath + filename
-      const storage: firebase.storage.Storage = firebase.storage()
-      const ref = storage.ref().child(path)
-      /** BlobまたはFile型でアップロードする */
-      return await ref.put(file)
+      if (this.user !== null) {
+        await this.user.uploadFile(file)
+      } else {
+        console.log('user is null')
+      }
     } catch (error) {
       console.error(error)
     }
@@ -142,13 +164,16 @@ export default class ImageOperationPage extends Vue {
   /** ファイルのダウンロード */
   async downloadFile() {
     try {
-      const filename: string = 'filename'
-      const path: string = this.storagePath + filename
-      const storage: firebase.storage.Storage = firebase.storage()
-      const ref = storage.ref(path)
-      const url = await ref.getDownloadURL()
-      console.log('download finish.')
-      return url
+      if (this.user !== null) {
+        await this.user.downloadFile()
+        if (this.user.image !== undefined && this.user.image.url !== null) {
+          this.clear()
+          this.fileInfo.url = this.user.image.url
+          this.fileInfo.isDownloaded = true
+        }
+      } else {
+        console.log('user is null')
+      }
     } catch (error) {
       console.error(error)
     }
@@ -156,11 +181,11 @@ export default class ImageOperationPage extends Vue {
   /** ファイルの削除 */
   async deleteFile() {
      try {
-      const filename: string = 'filename'
-      const path: string = this.storagePath + filename
-      const storage: firebase.storage.Storage = firebase.storage()
-      const ref = storage.ref().child(path)
-      await ref.delete()
+      if (this.user !== null) {
+        await this.user.deleteFile()
+      } else {
+        console.log('user is null')
+      }
     } catch (error) {
       console.error(error)
     }
