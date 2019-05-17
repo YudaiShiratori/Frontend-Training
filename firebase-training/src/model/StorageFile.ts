@@ -1,5 +1,5 @@
 export default interface StorageFile {
-  name: string | null,
-  url: string | null,
-  fileType: string | null,
+  name: string | null;
+  url: string | null;
+  fileType: string | null;
 }

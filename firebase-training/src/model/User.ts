@@ -18,7 +18,7 @@ export class User extends Base {
       batch.set(this.documentRef, item, { merge: true });
       await batch.commit();
       this.isSaved = true;
-    } catch(error) {
+    } catch (error) {
       throw error;
     }
   }
@@ -26,13 +26,13 @@ export class User extends Base {
   /** Firestore 更新 */
   async update() {
     try {
-      const item = this.pack(true)
-      const batch: firebase.firestore.WriteBatch = this.db.batch()
-      batch.set(this.documentRef, item, { merge: true })
-      await batch.commit()
-      this.isSaved = true
+      const item = this.pack(true);
+      const batch: firebase.firestore.WriteBatch = this.db.batch();
+      batch.set(this.documentRef, item, { merge: true });
+      await batch.commit();
+      this.isSaved = true;
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 
@@ -43,94 +43,94 @@ export class User extends Base {
   /** Cloud Storage アップロード */
   async uploadFile(file: File, filename: string = 'filename') {
     try {
-      const storagePath: string = `${this.path}/${this.uid}/${filename}`
-      const ref = this.storage.ref().child(storagePath)
+      const storagePath: string = `${this.path}/${this.uid}/${filename}`;
+      const ref = this.storage.ref().child(storagePath);
       // const uploadMetadata: firebase.storage.UploadMetadata = {
       //   contentType: 'image/jpeg',
       // }
-      const result = await ref.put(file)
-      const downloadUrl = await ref.getDownloadURL()
-      const meta = result.metadata
-      console.log(result, meta)
+      const result = await ref.put(file);
+      const downloadUrl = await ref.getDownloadURL();
+      const meta = result.metadata;
+      // console.log(result, meta);
       this.image = {
         name: filename,
         url: downloadUrl,
         fileType: meta.contentType !== null && meta.contentType !== undefined ? meta.contentType : '',
-      }
-      await this.save()
+      };
+      await this.save();
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 
   /** Cloud Storage ダウンロード */
   async downloadFile(filename: string = 'filename') {
     try {
-      const storagePath: string = `${this.path}/${this.uid}/${filename}`
-      const ref = this.storage.ref().child(storagePath)
-      const downloadUrl = await ref.getDownloadURL()
-      const meta = await ref.getMetadata()
-      console.log(downloadUrl, meta)
+      const storagePath: string = `${this.path}/${this.uid}/${filename}`;
+      const ref = this.storage.ref().child(storagePath);
+      const downloadUrl = await ref.getDownloadURL();
+      const meta = await ref.getMetadata();
+      // console.log(downloadUrl, meta);
       this.image = {
         name: filename,
         url: downloadUrl,
         fileType: 'contentType' in meta ? meta.contentType : '',
-      }
+      };
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 
   /** Cloud Storage 削除 */
   async deleteFile(filename: string = 'filename') {
     try {
-      const storagePath: string = `${this.path}/${this.uid}/${filename}`
-      const ref = this.storage.ref().child(storagePath)
-      await ref.delete()
-      const batch: firebase.firestore.WriteBatch = this.db.batch()
+      const storagePath: string = `${this.path}/${this.uid}/${filename}`;
+      const ref = this.storage.ref().child(storagePath);
+      await ref.delete();
+      const batch: firebase.firestore.WriteBatch = this.db.batch();
       batch.set(this.documentRef, {
         image: firebase.firestore.FieldValue.delete(),
         updatedAt: new Date(),
-      }, { merge: true })
-      await batch.commit()
-      this.image = undefined
+      }, { merge: true });
+      await batch.commit();
+      this.image = undefined;
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 
   /** モデルクラスの内部プロパティへセットする */
   protected setProperty(snapshot: firebase.firestore.DocumentSnapshot) {
-    super.setProperty(snapshot)
+    super.setProperty(snapshot);
     if (snapshot.exists) {
-      const data = snapshot.data()
+      const data = snapshot.data();
       if (data !== undefined) {
-        this.name = 'name' in data ? data.name : undefined
-        this.image = 'image' in data ? data.image : undefined
+        this.name = 'name' in data ? data.name : undefined;
+        this.image = 'image' in data ? data.image : undefined;
       }
     }
-    console.log(this)
+    // console.log(this);
   }
 
   /** 保存するデータをまとめる */
   protected pack(isUpdate: boolean = false): any {
-    const item: any = super.pack(isUpdate)
+    const item: any = super.pack(isUpdate);
     // データ
-    item.uid = this.uid
+    item.uid = this.uid;
     if (this.name !== undefined) {
-      item.name = this.name
+      item.name = this.name;
     }
     if (this.image !== undefined) {
-      item.image = this.image
+      item.image = this.image;
     }
-    return item
+    return item;
   }
 
   /** モデルクラスの内部プロパティを初期化する */
   protected clear() {
-    super.clear()
-    this.name = undefined
-    this.image = undefined
+    super.clear();
+    this.name = undefined;
+    this.image = undefined;
   }
 
 }

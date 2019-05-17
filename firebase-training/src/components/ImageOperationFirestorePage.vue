@@ -65,6 +65,7 @@ import { FileInfo } from '@/ts/interface/FileInfo'
 export default class ImageOperationFirestorePage extends Vue {
   isLoading: boolean = false
   message: string = ''
+  
   /** モデルクラス */
   user: User | null = null
   /**
