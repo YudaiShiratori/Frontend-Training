@@ -10,7 +10,7 @@
   "dependencies": {
     "jshint": "^2.9.7",
     "vue": "^2.5.21",
-    "yarn": "^1.13.0"
+    "yarn": "^1.22.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",
